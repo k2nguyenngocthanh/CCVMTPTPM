@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Banner {
+  ma_banner Int     @id @default(autoincrement())
+  ma_phim   Int?
+  hinh_anh  String? @db.VarChar(255)
+  Phim      Phim?   @relation(fields: [ma_phim], references: [ma_phim], onDelete: NoAction, onUpdate: NoAction, map: "banner_ibfk_1")
+
+  @@index([ma_phim], map: "ma_phim")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model Ghe {
+  ma_ghe   Int
+  ten_ghe  String?   @db.VarChar(255)
+  loai_ghe String?   @db.VarChar(255)
+  ma_rap   Int?
+  rap_phim rap_phim? @relation(fields: [ma_rap], references: [ma_rap], onDelete: NoAction, onUpdate: NoAction, map: "ghe_ibfk_1")
+
+  @@index([ma_rap], map: "ma_rap")
+  @@ignore
+}
+
+model Phim {
+  ma_phim         Int          @id @default(autoincrement())
+  ten_phim        String?      @db.VarChar(255)
+  trailer         String?      @db.VarChar(255)
+  hinh_anh        String?      @db.VarChar(255)
+  mo_ta           String?      @db.VarChar(255)
+  ngay_khoi_chieu DateTime?    @db.Date
+  danh_gia        Int?
+  hot             Boolean?
+  dang_chieu      Boolean?
+  sap_chieu       Boolean?
+  Banner          Banner[]
+  lich_chieu      lich_chieu[] @ignore
+}
+
+model cum_rap {
+  ma_cum_rap      Int           @id @default(autoincrement())
+  ten_cum_rap     String?       @db.VarChar(255)
+  dia_chi         String?       @db.VarChar(255)
+  ma_he_thong_rap Int?
+  he_thong_rap    he_thong_rap? @relation(fields: [ma_he_thong_rap], references: [ma_he_thong_rap], onDelete: NoAction, onUpdate: NoAction, map: "cum_rap_ibfk_1")
+  rap_phim        rap_phim[]
+
+  @@index([ma_he_thong_rap], map: "ma_he_thong_rap")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model dat_ve {
+  tai_khoan     Int
+  ma_lich_chieu Int
+  ma_ghe        Int
+  nguoi_dung    nguoi_dung @relation(fields: [tai_khoan], references: [tai_khoan], onDelete: NoAction, onUpdate: NoAction, map: "dat_ve_ibfk_1")
+
+  @@index([tai_khoan], map: "tai_khoan")
+  @@ignore
+}
+
+model he_thong_rap {
+  ma_he_thong_rap  Int       @id
+  ten_he_thong_rap String?   @db.VarChar(255)
+  logo             String?   @db.VarChar(255)
+  cum_rap          cum_rap[]
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model lich_chieu {
+  ma_lich_chieu  Int
+  ma_rap         Int?
+  ma_phim        Int?
+  ngay_gio_chieu DateTime? @db.DateTime(0)
+  gia_ve         Int?
+  rap_phim       rap_phim? @relation(fields: [ma_rap], references: [ma_rap], onDelete: NoAction, onUpdate: NoAction, map: "lich_chieu_ibfk_1")
+  Phim           Phim?     @relation(fields: [ma_phim], references: [ma_phim], onDelete: NoAction, onUpdate: NoAction, map: "lich_chieu_ibfk_2")
+
+  @@index([ma_phim], map: "ma_phim")
+  @@index([ma_rap], map: "ma_rap")
+  @@ignore
+}
+
+model nguoi_dung {
+  tai_khoan       Int      @id @default(autoincrement())
+  ho_ten          String?  @db.VarChar(255)
+  email           String?  @db.VarChar(255)
+  so_dt           String?  @db.VarChar(255)
+  mat_khau        String?  @db.VarChar(255)
+  loai_nguoi_dung String?  @db.VarChar(255)
+  is_removed      Boolean? @default(false)
+  dat_ve          dat_ve[] @ignore
+}
+
+model rap_phim {
+  ma_rap     Int          @id
+  ten_rap    String?      @db.VarChar(255)
+  ma_cum_rap Int?
+  Ghe        Ghe[]        @ignore
+  lich_chieu lich_chieu[] @ignore
+  cum_rap    cum_rap?     @relation(fields: [ma_cum_rap], references: [ma_cum_rap], onDelete: NoAction, onUpdate: NoAction, map: "rap_phim_ibfk_1")
+
+  @@index([ma_cum_rap], map: "ma_cum_rap")
+}
