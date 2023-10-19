@@ -63,7 +63,7 @@ let UserController = class UserController {
             throw new common_1.HttpException('BE Error', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    findOne(id, req) {
+    findOne(id, req, userBody) {
         try {
             let data = req.user;
             console.log(data);
@@ -73,7 +73,7 @@ let UserController = class UserController {
             throw new common_1.HttpException('BE Error', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    update(id, ho_ten, email, so_dt, mat_khau, loai_nguoi_dung, userBody, updateUserDto) {
+    update(id, updateUserDto, userBody) {
         try {
             return this.userService.update(+id, updateUserDto);
         }
@@ -81,7 +81,7 @@ let UserController = class UserController {
             throw new common_1.HttpException('BE Error', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    remove(id) {
+    remove(id, userBody) {
         try {
             return this.userService.remove(+id);
         }
@@ -89,6 +89,7 @@ let UserController = class UserController {
             throw new common_1.HttpException('BE Error', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    uploadAvatar(id) { }
 };
 exports.UserController = UserController;
 __decorate([
@@ -109,35 +110,39 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)('TimKiemNguoiDung/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)('TimKiemNguoiDung'),
+    __param(0, (0, common_1.Query)('tai_khoan')),
     __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String, Object, userBody]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Put)('CapNhatThongTinNguoiDung/:id'),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Param)('ho_ten')),
-    __param(2, (0, common_1.Param)('email')),
-    __param(3, (0, common_1.Param)('so_dt')),
-    __param(4, (0, common_1.Param)('mat_khau')),
-    __param(5, (0, common_1.Param)('loai_nguoi_dung')),
-    __param(6, (0, common_1.Body)()),
-    __param(7, (0, common_1.Body)()),
+    (0, common_1.Put)('CapNhatThongTinNguoiDung'),
+    __param(0, (0, common_1.Query)('tai_khoan')),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String, String, String, String, userBody,
-        update_user_dto_1.UpdateUserDto]),
+    __metadata("design:paramtypes", [String, update_user_dto_1.UpdateUserDto,
+        userBody]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "update", null);
 __decorate([
-    (0, common_1.Delete)('XoaNguoiDung/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Delete)('XoaNguoiDung'),
+    __param(0, (0, common_1.Query)('tai_khoan')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, userBody]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Post)('UploadAvatar'),
+    __param(0, (0, common_1.Query)('tai_khoan')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], UserController.prototype, "remove", null);
+], UserController.prototype, "uploadAvatar", null);
 exports.UserController = UserController = __decorate([
     (0, swagger_1.ApiTags)('QuanLyNguoiDung'),
     (0, common_1.Controller)('/api/QuanLyNguoiDung'),

@@ -22,7 +22,7 @@ export declare class UserController {
         loai_nguoi_dung: string;
         is_removed: boolean;
     }[]>;
-    findOne(id: string, req: any): Promise<{
+    findOne(id: string, req: any, userBody: userBody): Promise<false | {
         tai_khoan: number;
         ho_ten: string;
         email: string;
@@ -31,7 +31,8 @@ export declare class UserController {
         loai_nguoi_dung: string;
         is_removed: boolean;
     }>;
-    update(id: string, ho_ten: string, email: string, so_dt: string, mat_khau: string, loai_nguoi_dung: string, userBody: userBody, updateUserDto: UpdateUserDto): Promise<string>;
-    remove(id: string): Promise<string>;
+    update(id: string, updateUserDto: UpdateUserDto, userBody: userBody): Promise<string>;
+    remove(id: string, userBody: userBody): Promise<string>;
+    uploadAvatar(id: string): void;
 }
 export {};

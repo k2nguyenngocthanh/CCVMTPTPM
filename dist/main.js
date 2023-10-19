@@ -10,7 +10,7 @@ async function bootstrap() {
     app.use(express.static('.'));
     const config = new swagger_1.DocumentBuilder()
         .setTitle('My API')
-        .setVersion('1.1')
+        .setVersion('1.2')
         .addBearerAuth()
         .build();
     const document = swagger_1.SwaggerModule.createDocument(app, config);

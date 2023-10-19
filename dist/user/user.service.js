@@ -28,22 +28,37 @@ let UserService = class UserService {
         return data;
     }
     async findOne(id) {
-        let data = await this.prisma.nguoi_dung.findFirst({
+        let user = await this.prisma.nguoi_dung.findFirst({
             where: {
                 tai_khoan: id,
                 is_removed: false,
             },
         });
-        return data;
+        if (user) {
+            return user;
+        }
+        else {
+            return false;
+        }
     }
     async update(id, updateUserDto) {
-        await this.prisma.nguoi_dung.update({
-            data: updateUserDto,
+        let userUpdate = await this.prisma.nguoi_dung.findFirst({
             where: {
                 tai_khoan: id,
             },
         });
-        return `tai_khoan: #${id} update successfully`;
+        if (userUpdate) {
+            await this.prisma.nguoi_dung.update({
+                where: {
+                    tai_khoan: id,
+                },
+                data: updateUserDto,
+            });
+            return `tai_khoan: #${id} update successfully`;
+        }
+        else {
+            return `tai_khoan: #${id} update unsuccessfully`;
+        }
     }
     async remove(id) {
         let newData = await this.prisma.nguoi_dung.findFirst({

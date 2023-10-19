@@ -12,6 +12,7 @@ import {
   UseGuards,
   Req,
   Query,
+  UploadedFile,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -26,6 +27,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { type } from 'os';
 
 class userBody {
   @ApiProperty({ type: Number })
@@ -61,7 +63,10 @@ export class UserController {
   }
 
   @Get('LayDanhSachNguoiDung')
-  findAll(@Body() userBody: userBody) {
+  findAll(
+    @Body()
+    userBody: userBody,
+  ) {
     try {
       return this.userService.findAll();
     } catch (error) {
@@ -69,8 +74,12 @@ export class UserController {
     }
   }
 
-  @Get('TimKiemNguoiDung/:id')
-  findOne(@Param('id') id: string, @Req() req) {
+  @Get('TimKiemNguoiDung')
+  findOne(
+    @Query('tai_khoan') id: string,
+    @Req() req,
+    @Body() userBody: userBody,
+  ) {
     try {
       let data = req.user;
       console.log(data);
@@ -80,16 +89,11 @@ export class UserController {
     }
   }
 
-  @Put('CapNhatThongTinNguoiDung/:id')
+  @Put('CapNhatThongTinNguoiDung')
   update(
-    @Param('id') id: string,
-    @Param('ho_ten') ho_ten: string,
-    @Param('email') email: string,
-    @Param('so_dt') so_dt: string,
-    @Param('mat_khau') mat_khau: string,
-    @Param('loai_nguoi_dung') loai_nguoi_dung: string,
-    @Body() userBody: userBody,
+    @Query('tai_khoan') id: string,
     @Body() updateUserDto: UpdateUserDto,
+    @Body() userBody: userBody,
   ) {
     try {
       return this.userService.update(+id, updateUserDto);
@@ -98,12 +102,15 @@ export class UserController {
     }
   }
 
-  @Delete('XoaNguoiDung/:id')
-  remove(@Param('id') id: string) {
+  @Delete('XoaNguoiDung')
+  remove(@Query('tai_khoan') id: string, @Body() userBody: userBody) {
     try {
       return this.userService.remove(+id);
     } catch (error) {
       throw new HttpException('BE Error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  @Post('UploadAvatar')
+  uploadAvatar(@Query('tai_khoan') id: string) {}
 }

@@ -12,7 +12,7 @@ export declare class UserService {
         loai_nguoi_dung: string;
         is_removed: boolean;
     }[]>;
-    findOne(id: number): Promise<{
+    findOne(id: number): Promise<false | {
         tai_khoan: number;
         ho_ten: string;
         email: string;
