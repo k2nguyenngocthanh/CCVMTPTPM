@@ -95,6 +95,7 @@ model nguoi_dung {
   mat_khau        String?  @db.VarChar(255)
   loai_nguoi_dung String?  @db.VarChar(255)
   is_removed      Boolean? @default(false)
+  avatar_img      String?  @db.VarChar(255)
   dat_ve          dat_ve[] @ignore
 }
 

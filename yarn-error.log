@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add @nestjs/swagger swagger-ui-express
+  /usr/local/bin/node /usr/local/bin/yarn add bcrypt
 
 PATH: 
   /Library/Frameworks/Python.framework/Versions/2.7/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/Library/Frameworks/Python.framework/Versions/3.10/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/Library/Frameworks/Python.framework/Versions/3.10/bin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/Users/vodinhnguyen/Documents/Movie_BE/movie/node_modules/@nestjs/jwt/node_modules/@types/jsonwebtoken/LICENSE'
+  Error: EACCES: permission denied, mkdir '/Users/vodinhnguyen/Documents/Movie_BE/movie/node_modules/@nestjs/cli/node_modules/minimatch'
 
 npm manifest: 
   {
@@ -44,10 +44,12 @@ npm manifest:
       "@nestjs/core": "^10.0.0",
       "@nestjs/mapped-types": "*",
       "@nestjs/platform-express": "^10.0.0",
+      "@nestjs/swagger": "^7.1.13",
       "@prisma/client": "^5.4.2",
       "prisma": "^5.4.2",
       "reflect-metadata": "^0.1.13",
-      "rxjs": "^7.8.1"
+      "rxjs": "^7.8.1",
+      "swagger-ui-express": "^5.0.0"
     },
     "devDependencies": {
       "@nestjs/cli": "^10.0.0",
@@ -57,6 +59,7 @@ npm manifest:
       "@nestjs/testing": "^10.0.0",
       "@types/express": "^4.17.17",
       "@types/jest": "^29.5.2",
+      "@types/multer": "^1.4.9",
       "@types/node": "^20.3.1",
       "@types/passport-jwt": "^3.0.10",
       "@types/supertest": "^2.0.12",
@@ -853,7 +856,7 @@ Lockfile:
       "@types/jsonwebtoken" "9.0.2"
       jsonwebtoken "9.0.0"
   
-  "@nestjs/mapped-types@*":
+  "@nestjs/mapped-types@*", "@nestjs/mapped-types@2.0.2":
     version "2.0.2"
     resolved "https://registry.npmjs.org/@nestjs/mapped-types/-/mapped-types-2.0.2.tgz"
     integrity sha512-V0izw6tWs6fTp9+KiiPUbGHWALy563Frn8X6Bm87ANLRuE46iuBMD5acKBDP5lKL/75QFvrzSJT7HkCbB0jTpg==
@@ -884,6 +887,17 @@ Lockfile:
       comment-json "4.2.3"
       jsonc-parser "3.2.0"
       pluralize "8.0.0"
+  
+  "@nestjs/swagger@^7.1.13":
+    version "7.1.13"
+    resolved "https://registry.yarnpkg.com/@nestjs/swagger/-/swagger-7.1.13.tgz#5fe1127b159780315f6e827d746b68db7f323e38"
+    integrity sha512-aHfW0rDZZKTuPVSkxutBCB16lBy5vrsHVoRF5RvPtH7U2cm4Vf+OnfhxKKuG2g2Xocn9sDL+JAyVlY2VN3ytTw==
+    dependencies:
+      "@nestjs/mapped-types" "2.0.2"
+      js-yaml "4.1.0"
+      lodash "4.17.21"
+      path-to-regexp "3.2.0"
+      swagger-ui-dist "5.9.0"
   
   "@nestjs/testing@^10.0.0":
     version "10.2.7"
@@ -1146,6 +1160,13 @@ Lockfile:
     version "1.3.3"
     resolved "https://registry.npmjs.org/@types/mime/-/mime-1.3.3.tgz"
     integrity sha512-Ys+/St+2VF4+xuY6+kDIXGxbNRO0mesVg0bbxEfB97Od1Vjpjx9KD1qxs64Gcb3CWPirk9Xe+PT4YiiHQ9T+eg==
+  
+  "@types/multer@^1.4.9":
+    version "1.4.9"
+    resolved "https://registry.yarnpkg.com/@types/multer/-/multer-1.4.9.tgz#74e803d3a9b62f41d191ce48012c2151f62c2ed7"
+    integrity sha512-9NSvPJ2E8bNTc8XtJq1Cimx2Wrn2Ah48F15B2Du/hM8a8CHLhVbJMlF3ZCqhvMdht7Sa+YdP0aKP7N4fxDcrrg==
+    dependencies:
+      "@types/express" "*"
   
   "@types/node@*", "@types/node@^20.3.1":
     version "20.8.6"
@@ -3572,6 +3593,13 @@ Lockfile:
     resolved "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz"
     integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
   
+  js-yaml@4.1.0, js-yaml@^4.1.0:
+    version "4.1.0"
+    resolved "https://registry.npmjs.org/js-yaml/-/js-yaml-4.1.0.tgz"
+    integrity sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==
+    dependencies:
+      argparse "^2.0.1"
+  
   js-yaml@^3.13.1:
     version "3.14.1"
     resolved "https://registry.npmjs.org/js-yaml/-/js-yaml-3.14.1.tgz"
@@ -3579,13 +3607,6 @@ Lockfile:
     dependencies:
       argparse "^1.0.7"
       esprima "^4.0.0"
-  
-  js-yaml@^4.1.0:
-    version "4.1.0"
-    resolved "https://registry.npmjs.org/js-yaml/-/js-yaml-4.1.0.tgz"
-    integrity sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==
-    dependencies:
-      argparse "^2.0.1"
   
   jsesc@^2.5.1:
     version "2.5.2"
@@ -4835,6 +4856,18 @@ Lockfile:
     version "1.0.0"
     resolved "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz"
     integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
+  
+  swagger-ui-dist@5.9.0, swagger-ui-dist@>=5.0.0:
+    version "5.9.0"
+    resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-5.9.0.tgz#d52b6cf52fd0a8e6930866c402aaa793fe4e3f76"
+    integrity sha512-NUHSYoe5XRTk/Are8jPJ6phzBh3l9l33nEyXosM17QInoV95/jng8+PuSGtbD407QoPf93MH3Bkh773OgesJpA==
+  
+  swagger-ui-express@^5.0.0:
+    version "5.0.0"
+    resolved "https://registry.yarnpkg.com/swagger-ui-express/-/swagger-ui-express-5.0.0.tgz#7a00a18dd909574cb0d628574a299b9ba53d4d49"
+    integrity sha512-tsU9tODVvhyfkNSvf03E6FAk+z+5cU3lXAzMy6Pv4av2Gt2xA0++fogwC4qo19XuFf6hdxevPuVCSKFuMHJhFA==
+    dependencies:
+      swagger-ui-dist ">=5.0.0"
   
   symbol-observable@4.0.0:
     version "4.0.0"

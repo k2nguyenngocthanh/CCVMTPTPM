@@ -11,6 +11,7 @@ export declare class UserService {
         mat_khau: string;
         loai_nguoi_dung: string;
         is_removed: boolean;
+        avatar_img: string;
     }[]>;
     findOne(id: number): Promise<false | {
         tai_khoan: number;
@@ -20,7 +21,9 @@ export declare class UserService {
         mat_khau: string;
         loai_nguoi_dung: string;
         is_removed: boolean;
+        avatar_img: string;
     }>;
     update(id: number, updateUserDto: UpdateUserDto): Promise<string>;
     remove(id: number): Promise<string>;
+    uploadAvatar(id: number, fileUpload: any): Promise<any>;
 }

@@ -1,8 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaClient, nguoi_dung } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { userLoginType } from './entities/auth.entity';
+import { nguoiDungDto, userLoginType } from './entities/auth.entity';
+
+const bcrypt = require('bcryptjs');
 
 @Injectable()
 export class AuthService {
@@ -13,30 +15,27 @@ export class AuthService {
 
   prisma = new PrismaClient();
 
-  login(userLogin: userLoginType) {
-    // check email exists
-    try {
-      const isCheckLogin = this.prisma.nguoi_dung.findMany({
-        where: {
-          email: userLogin.email,
-        },
-      });
-      return isCheckLogin;
-      if (!isCheckLogin) {
-        let token = this.jwtService.sign(
+  async login(email: string, password: string) {
+    let user = await this.prisma.nguoi_dung.findFirst({
+      where: {
+        email: email,
+      },
+    });
+
+    if (user) {
+      const isPasswordValid = await bcrypt.compareSync(password, user.mat_khau);
+      if (isPasswordValid) {
+        const token = this.jwtService.sign(
           { data: 'data' },
           { expiresIn: '5m', secret: this.config.get('SECRET_KEY') },
         );
         return token;
-      } else {
-        throw new Error('Invalid email or password');
       }
-    } catch (error) {
-      throw new Error('Login failed');
     }
+    throw new UnauthorizedException('Invalid email or password');
   }
 
-  signUp(userSignUp: nguoi_dung) {
+  signUp(userSignUp: nguoiDungDto) {
     // check same email
     try {
       const isEmailUnique = this.prisma.nguoi_dung.findFirst({

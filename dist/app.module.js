@@ -15,6 +15,10 @@ const auth_module_1 = require("./auth/auth.module");
 const config_1 = require("@nestjs/config");
 const movie_module_1 = require("./movie/movie.module");
 const theater_module_1 = require("./theater/theater.module");
+const banner_module_1 = require("./banner/banner.module");
+const theater_group_module_1 = require("./theater_group/theater_group.module");
+const theater_sys_module_1 = require("./theater_sys/theater_sys.module");
+const ticket_module_1 = require("./ticket/ticket.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -28,6 +32,10 @@ exports.AppModule = AppModule = __decorate([
             }),
             movie_module_1.MovieModule,
             theater_module_1.TheaterModule,
+            banner_module_1.BannerModule,
+            theater_group_module_1.TheaterGroupModule,
+            theater_sys_module_1.TheaterSysModule,
+            ticket_module_1.TicketModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

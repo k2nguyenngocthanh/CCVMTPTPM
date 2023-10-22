@@ -29,4 +29,5 @@ export declare class MovieService {
     }>;
     update(id: number, updateMovieDto: UpdateMovieDto): Promise<string>;
     remove(id: number): Promise<string>;
+    uploadMovieImage(id: number, fileUpload: any): Promise<void>;
 }

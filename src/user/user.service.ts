@@ -71,4 +71,21 @@ export class UserService {
     });
     return `tai_khoan: #${id} is deleted`;
   }
+
+  async uploadAvatar(id: number, fileUpload: any) {
+    let getUser = await this.prisma.nguoi_dung.findFirst({
+      where: {
+        tai_khoan: id,
+      },
+    });
+
+    getUser.avatar_img = fileUpload.filename;
+    await this.prisma.nguoi_dung.update({
+      data: getUser,
+      where: {
+        tai_khoan: id,
+      },
+    });
+    return fileUpload.fieldname;
+  }
 }

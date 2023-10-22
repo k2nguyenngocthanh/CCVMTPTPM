@@ -17,37 +17,14 @@ const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
 const update_user_dto_1 = require("./dto/update-user.dto");
 const swagger_1 = require("@nestjs/swagger");
-class userBody {
-}
-__decorate([
-    (0, swagger_1.ApiProperty)({ type: Number }),
-    __metadata("design:type", Number)
-], userBody.prototype, "tai_khoan", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({ type: String }),
-    __metadata("design:type", String)
-], userBody.prototype, "ho_ten", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({ type: String }),
-    __metadata("design:type", String)
-], userBody.prototype, "email", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({ type: String }),
-    __metadata("design:type", String)
-], userBody.prototype, "so_dt", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({ type: String }),
-    __metadata("design:type", String)
-], userBody.prototype, "mat_khau", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({ type: String }),
-    __metadata("design:type", String)
-], userBody.prototype, "loai_nguoi_dung", void 0);
+const platform_express_1 = require("@nestjs/platform-express");
+const multer_1 = require("multer");
+const user_entity_1 = require("./entities/user.entity");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
-    create(createUserDto, userBody, req) {
+    create(createUserDto, User, req) {
         try {
             return this.userService.create(createUserDto);
         }
@@ -55,7 +32,7 @@ let UserController = class UserController {
             throw new common_1.HttpException('BE Error', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    findAll(userBody) {
+    findAll(User) {
         try {
             return this.userService.findAll();
         }
@@ -63,7 +40,7 @@ let UserController = class UserController {
             throw new common_1.HttpException('BE Error', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    findOne(id, req, userBody) {
+    findOne(id, req, User) {
         try {
             let data = req.user;
             console.log(data);
@@ -73,7 +50,7 @@ let UserController = class UserController {
             throw new common_1.HttpException('BE Error', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    update(id, updateUserDto, userBody) {
+    update(id, updateUserDto, User) {
         try {
             return this.userService.update(+id, updateUserDto);
         }
@@ -81,7 +58,7 @@ let UserController = class UserController {
             throw new common_1.HttpException('BE Error', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    remove(id, userBody) {
+    remove(id, User) {
         try {
             return this.userService.remove(+id);
         }
@@ -89,7 +66,14 @@ let UserController = class UserController {
             throw new common_1.HttpException('BE Error', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    uploadAvatar(id) { }
+    uploadAvatar(id, fileUpload) {
+        try {
+            return this.userService.uploadAvatar(Number(id), fileUpload);
+        }
+        catch (error) {
+            throw new common_1.HttpException('BE Error', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 };
 exports.UserController = UserController;
 __decorate([
@@ -98,7 +82,7 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, userBody,
+    __metadata("design:paramtypes", [Object, user_entity_1.User,
         Request]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "create", null);
@@ -106,7 +90,7 @@ __decorate([
     (0, common_1.Get)('LayDanhSachNguoiDung'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [userBody]),
+    __metadata("design:paramtypes", [user_entity_1.User]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "findAll", null);
 __decorate([
@@ -115,7 +99,7 @@ __decorate([
     __param(1, (0, common_1.Req)()),
     __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object, userBody]),
+    __metadata("design:paramtypes", [String, Object, user_entity_1.User]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "findOne", null);
 __decorate([
@@ -125,7 +109,7 @@ __decorate([
     __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_user_dto_1.UpdateUserDto,
-        userBody]),
+        user_entity_1.User]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "update", null);
 __decorate([
@@ -133,14 +117,25 @@ __decorate([
     __param(0, (0, common_1.Query)('tai_khoan')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, userBody]),
+    __metadata("design:paramtypes", [String, user_entity_1.User]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "remove", null);
 __decorate([
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
+    (0, swagger_1.ApiBody)({
+        type: user_entity_1.uploadAvatarDto,
+    }),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
+        storage: (0, multer_1.diskStorage)({
+            destination: process.cwd() + '/public/avatar_img',
+            filename: (req, file, callback) => callback(null, new Date().getTime() + '_' + file.originalname),
+        }),
+    })),
     (0, common_1.Post)('UploadAvatar'),
-    __param(0, (0, common_1.Query)('tai_khoan')),
+    __param(0, (0, common_1.Query)('id')),
+    __param(1, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "uploadAvatar", null);
 exports.UserController = UserController = __decorate([

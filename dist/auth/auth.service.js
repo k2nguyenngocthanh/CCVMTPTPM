@@ -14,31 +14,27 @@ const common_1 = require("@nestjs/common");
 const client_1 = require("@prisma/client");
 const jwt_1 = require("@nestjs/jwt");
 const config_1 = require("@nestjs/config");
+const bcrypt = require('bcryptjs');
 let AuthService = class AuthService {
     constructor(jwtService, config) {
         this.jwtService = jwtService;
         this.config = config;
         this.prisma = new client_1.PrismaClient();
     }
-    login(userLogin) {
-        try {
-            const isCheckLogin = this.prisma.nguoi_dung.findMany({
-                where: {
-                    email: userLogin.email,
-                },
-            });
-            return isCheckLogin;
-            if (!isCheckLogin) {
-                let token = this.jwtService.sign({ data: 'data' }, { expiresIn: '5m', secret: this.config.get('SECRET_KEY') });
+    async login(email, password) {
+        let user = await this.prisma.nguoi_dung.findFirst({
+            where: {
+                email: email,
+            },
+        });
+        if (user) {
+            const isPasswordValid = await bcrypt.compareSync(password, user.mat_khau);
+            if (isPasswordValid) {
+                const token = this.jwtService.sign({ data: 'data' }, { expiresIn: '5m', secret: this.config.get('SECRET_KEY') });
                 return token;
             }
-            else {
-                throw new Error('Invalid email or password');
-            }
         }
-        catch (error) {
-            throw new Error('Login failed');
-        }
+        throw new common_1.UnauthorizedException('Invalid email or password');
     }
     signUp(userSignUp) {
         try {

@@ -6,6 +6,10 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { MovieModule } from './movie/movie.module';
 import { TheaterModule } from './theater/theater.module';
+import { BannerModule } from './banner/banner.module';
+import { TheaterGroupModule } from './theater_group/theater_group.module';
+import { TheaterSysModule } from './theater_sys/theater_sys.module';
+import { TicketModule } from './ticket/ticket.module';
 
 @Module({
   imports: [
@@ -16,6 +20,10 @@ import { TheaterModule } from './theater/theater.module';
     }),
     MovieModule,
     TheaterModule,
+    BannerModule,
+    TheaterGroupModule,
+    TheaterSysModule,
+    TicketModule,
   ],
   controllers: [AppController],
   providers: [AppService],

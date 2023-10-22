@@ -17,60 +17,76 @@ const common_1 = require("@nestjs/common");
 const theater_service_1 = require("./theater.service");
 const update_theater_dto_1 = require("./dto/update-theater.dto");
 const swagger_1 = require("@nestjs/swagger");
+const theater_entity_1 = require("./entities/theater.entity");
 let TheaterController = class TheaterController {
     constructor(theaterService) {
         this.theaterService = theaterService;
     }
-    create(createTheaterDto) {
-        return this.theaterService.create(createTheaterDto);
+    create(createTheaterDto, Theater) {
+        try {
+            return this.theaterService.create(createTheaterDto);
+        }
+        catch (error) {
+            throw new common_1.HttpException('BE Error', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-    findAll() {
-        return this.theaterService.findAll();
+    findAll(Theater) {
+        try {
+            return this.theaterService.findAll();
+        }
+        catch (error) {
+            throw new common_1.HttpException('BE Error', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-    findOne(id) {
-        return this.theaterService.findOne(+id);
+    update(id, updateTheaterDto, Theater) {
+        try {
+            return this.theaterService.update(+id, updateTheaterDto);
+        }
+        catch (error) {
+            throw new common_1.HttpException('BE Error', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-    update(id, updateTheaterDto) {
-        return this.theaterService.update(+id, updateTheaterDto);
-    }
-    remove(id) {
-        return this.theaterService.remove(+id);
+    remove(id, Theater) {
+        try {
+            return this.theaterService.remove(+id);
+        }
+        catch (error) {
+            throw new common_1.HttpException('BE Error', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 };
 exports.TheaterController = TheaterController;
 __decorate([
-    (0, common_1.Post)('ThemThongTinHeThongRap'),
+    (0, common_1.Post)('ThemThongTinRap'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, theater_entity_1.Theater]),
     __metadata("design:returntype", void 0)
 ], TheaterController.prototype, "create", null);
 __decorate([
-    (0, common_1.Get)('LayThongTinHeThongRap'),
+    (0, common_1.Get)('LayThongRap'),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [theater_entity_1.Theater]),
     __metadata("design:returntype", void 0)
 ], TheaterController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)('LayThongTinHeThongRapTheo/:id'),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], TheaterController.prototype, "findOne", null);
-__decorate([
-    (0, common_1.Put)('ThongTinHeThongRap/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Put)('CapNhatRap'),
+    __param(0, (0, common_1.Query)('id')),
     __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_theater_dto_1.UpdateTheaterDto]),
+    __metadata("design:paramtypes", [String, update_theater_dto_1.UpdateTheaterDto,
+        theater_entity_1.Theater]),
     __metadata("design:returntype", void 0)
 ], TheaterController.prototype, "update", null);
 __decorate([
-    (0, common_1.Delete)('XoaThongTinHeThongRap/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Delete)('XoaThongTinRap'),
+    __param(0, (0, common_1.Query)('id')),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, theater_entity_1.Theater]),
     __metadata("design:returntype", void 0)
 ], TheaterController.prototype, "remove", null);
 exports.TheaterController = TheaterController = __decorate([

@@ -46,4 +46,19 @@ export class MovieService {
     });
     return `ma_phim: #${id} is deleted`;
   }
+
+  async uploadMovieImage(id: number, fileUpload: any) {
+    let getMovie = await this.prisma.phim.findFirst({
+      where: {
+        ma_phim: id,
+      },
+    });
+    getMovie.hinh_anh = fileUpload.filename;
+    await this.prisma.phim.update({
+      data: getMovie,
+      where: {
+        ma_phim: id,
+      },
+    });
+  }
 }

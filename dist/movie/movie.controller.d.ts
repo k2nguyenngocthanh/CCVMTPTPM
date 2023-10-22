@@ -1,11 +1,13 @@
+/// <reference types="multer" />
 import { MovieService } from './movie.service';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Phim } from '.prisma/client';
+import { Movie } from './entities/movie.entity';
 export declare class MovieController {
     private readonly movieService;
     constructor(movieService: MovieService);
-    create(createMovieDto: Phim): Promise<string>;
-    findAll(): Promise<{
+    create(createMovieDto: Phim, Movie: Movie): Promise<string>;
+    findAll(movie: Movie): Promise<{
         ma_phim: number;
         ten_phim: string;
         trailer: string;
@@ -17,7 +19,7 @@ export declare class MovieController {
         dang_chieu: boolean;
         sap_chieu: boolean;
     }[]>;
-    findOne(id: string): Promise<{
+    findOne(id: string, Movie: Movie): Promise<{
         ma_phim: number;
         ten_phim: string;
         trailer: string;
@@ -29,6 +31,7 @@ export declare class MovieController {
         dang_chieu: boolean;
         sap_chieu: boolean;
     }>;
-    update(id: string, updateMovieDto: UpdateMovieDto): Promise<string>;
-    remove(id: string): Promise<string>;
+    update(id: string, updateMovieDto: UpdateMovieDto, Movie: Movie): Promise<string>;
+    remove(id: string, Movie: Movie): Promise<string>;
+    uploadMovieImage(id: string, fileUpload: Express.Multer.File): Promise<void>;
 }

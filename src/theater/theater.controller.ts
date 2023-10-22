@@ -7,40 +7,59 @@ import {
   Param,
   Delete,
   Put,
+  HttpException,
+  HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { TheaterService } from './theater.service';
 import { CreateTheaterDto } from './dto/create-theater.dto';
 import { UpdateTheaterDto } from './dto/update-theater.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { rap_phim } from '.prisma/client';
+import { Theater } from './entities/theater.entity';
 
 @ApiTags('QuanLyRap')
 @Controller('/api/QuanLyRap')
 export class TheaterController {
   constructor(private readonly theaterService: TheaterService) {}
 
-  @Post('ThemThongTinHeThongRap')
-  create(@Body() createTheaterDto: rap_phim) {
-    return this.theaterService.create(createTheaterDto);
+  @Post('ThemThongTinRap')
+  create(@Body() createTheaterDto: rap_phim, @Body() Theater: Theater) {
+    try {
+      return this.theaterService.create(createTheaterDto);
+    } catch (error) {
+      throw new HttpException('BE Error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
-  @Get('LayThongTinHeThongRap')
-  findAll() {
-    return this.theaterService.findAll();
+  @Get('LayThongRap')
+  findAll(@Body() Theater: Theater) {
+    try {
+      return this.theaterService.findAll();
+    } catch (error) {
+      throw new HttpException('BE Error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
-  @Get('LayThongTinHeThongRapTheo/:id')
-  findOne(@Param('id') id: string) {
-    return this.theaterService.findOne(+id);
+  @Put('CapNhatRap')
+  update(
+    @Query('id') id: string,
+    @Body() updateTheaterDto: UpdateTheaterDto,
+    @Body() Theater: Theater,
+  ) {
+    try {
+      return this.theaterService.update(+id, updateTheaterDto);
+    } catch (error) {
+      throw new HttpException('BE Error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
-  @Put('ThongTinHeThongRap/:id')
-  update(@Param('id') id: string, @Body() updateTheaterDto: UpdateTheaterDto) {
-    return this.theaterService.update(+id, updateTheaterDto);
-  }
-
-  @Delete('XoaThongTinHeThongRap/:id')
-  remove(@Param('id') id: string) {
-    return this.theaterService.remove(+id);
+  @Delete('XoaThongTinRap')
+  remove(@Query('id') id: string, @Body() Theater: Theater) {
+    try {
+      return this.theaterService.remove(+id);
+    } catch (error) {
+      throw new HttpException('BE Error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
