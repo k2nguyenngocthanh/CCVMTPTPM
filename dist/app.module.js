@@ -18,7 +18,6 @@ const theater_module_1 = require("./theater/theater.module");
 const banner_module_1 = require("./banner/banner.module");
 const theater_group_module_1 = require("./theater_group/theater_group.module");
 const theater_sys_module_1 = require("./theater_sys/theater_sys.module");
-const ticket_module_1 = require("./ticket/ticket.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -35,7 +34,6 @@ exports.AppModule = AppModule = __decorate([
             banner_module_1.BannerModule,
             theater_group_module_1.TheaterGroupModule,
             theater_sys_module_1.TheaterSysModule,
-            ticket_module_1.TicketModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
