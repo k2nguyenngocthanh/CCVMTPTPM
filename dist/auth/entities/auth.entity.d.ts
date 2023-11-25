@@ -1,12 +1,11 @@
 export declare class userLoginType {
     email: string;
-    password: string;
+    mat_khau: string;
 }
-export declare class nguoiDungDto {
-    tai_khoan: number;
+export declare class userSignUpType {
     ho_ten: string;
     email: string;
     so_dt: string;
     mat_khau: string;
-    loai_nguoi_dung: string;
+    avatar_img: string;
 }

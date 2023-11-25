@@ -31,7 +31,7 @@ let BannerService = class BannerService {
                 ma_banner: id,
             },
         });
-        getBanner.hinh_anh = fileUpload.fieldname;
+        getBanner.hinh_anh = fileUpload.filename;
         await this.prisma.banner.update({
             data: getBanner,
             where: {

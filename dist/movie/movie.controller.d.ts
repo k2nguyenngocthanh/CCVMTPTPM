@@ -18,6 +18,7 @@ export declare class MovieController {
         hot: boolean;
         dang_chieu: boolean;
         sap_chieu: boolean;
+        movie_img: string;
     }[]>;
     findOne(id: string, Movie: Movie): Promise<{
         ma_phim: number;
@@ -30,6 +31,7 @@ export declare class MovieController {
         hot: boolean;
         dang_chieu: boolean;
         sap_chieu: boolean;
+        movie_img: string;
     }>;
     update(id: string, updateMovieDto: UpdateMovieDto, Movie: Movie): Promise<string>;
     remove(id: string, Movie: Movie): Promise<string>;

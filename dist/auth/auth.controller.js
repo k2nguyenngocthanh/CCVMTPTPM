@@ -21,8 +21,8 @@ let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
-    login(email, password, userLoginType) {
-        return this.authService.login(email, password);
+    login(userLoginType) {
+        return this.authService.login(userLoginType);
     }
     signUp(userSignUp) {
         return this.authService.signUp(userSignUp);
@@ -30,19 +30,17 @@ let AuthController = class AuthController {
 };
 exports.AuthController = AuthController;
 __decorate([
-    (0, common_1.Post)('DangNhap/:email/:password'),
-    __param(0, (0, common_1.Param)('email')),
-    __param(1, (0, common_1.Query)('password')),
-    __param(2, (0, common_1.Body)()),
+    (0, common_1.Post)('DangNhap'),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, auth_entity_1.userLoginType]),
+    __metadata("design:paramtypes", [auth_entity_1.userLoginType]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "login", null);
 __decorate([
     (0, common_1.Post)('DangKy'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [auth_entity_1.nguoiDungDto]),
+    __metadata("design:paramtypes", [auth_entity_1.userSignUpType]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "signUp", null);
 exports.AuthController = AuthController = __decorate([

@@ -39,6 +39,7 @@ model Phim {
   hot             Boolean?
   dang_chieu      Boolean?
   sap_chieu       Boolean?
+  movie_img       String?      @db.VarChar(255)
   Banner          Banner[]
   lich_chieu      lich_chieu[] @ignore
 }

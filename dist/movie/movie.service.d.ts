@@ -14,6 +14,7 @@ export declare class MovieService {
         hot: boolean;
         dang_chieu: boolean;
         sap_chieu: boolean;
+        movie_img: string;
     }[]>;
     findOne(id: number): Promise<{
         ma_phim: number;
@@ -26,6 +27,7 @@ export declare class MovieService {
         hot: boolean;
         dang_chieu: boolean;
         sap_chieu: boolean;
+        movie_img: string;
     }>;
     update(id: number, updateMovieDto: UpdateMovieDto): Promise<string>;
     remove(id: number): Promise<string>;

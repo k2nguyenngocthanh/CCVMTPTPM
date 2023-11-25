@@ -21,24 +21,26 @@ let AuthService = class AuthService {
         this.config = config;
         this.prisma = new client_1.PrismaClient();
     }
-    async login(email, password) {
+    async login(userLoginType) {
         let user = await this.prisma.nguoi_dung.findFirst({
             where: {
-                email: email,
+                email: userLoginType.email,
             },
         });
         if (user) {
-            const isPasswordValid = await bcrypt.compareSync(password, user.mat_khau);
+            const isPasswordValid = await bcrypt.compareSync(userLoginType.email, userLoginType.mat_khau);
             if (isPasswordValid) {
                 const token = this.jwtService.sign({ data: 'data' }, { expiresIn: '5m', secret: this.config.get('SECRET_KEY') });
                 return token;
             }
         }
-        throw new common_1.UnauthorizedException('Invalid email or password');
+        else {
+            throw new common_1.UnauthorizedException('Invalid email or password');
+        }
     }
-    signUp(userSignUp) {
+    async signUp(userSignUp) {
         try {
-            const isEmailUnique = this.prisma.nguoi_dung.findFirst({
+            let isEmailUnique = await this.prisma.nguoi_dung.findFirst({
                 where: {
                     email: userSignUp.email,
                 },
@@ -47,7 +49,7 @@ let AuthService = class AuthService {
                 return 'Email is already in use';
             }
             else {
-                this.prisma.nguoi_dung.create({
+                await this.prisma.nguoi_dung.create({
                     data: userSignUp,
                 });
             }

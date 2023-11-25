@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaClient, nguoi_dung } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { nguoiDungDto, userLoginType } from './entities/auth.entity';
+import { userSignUpType, userLoginType } from './entities/auth.entity';
 
 const bcrypt = require('bcryptjs');
 
@@ -15,15 +15,17 @@ export class AuthService {
 
   prisma = new PrismaClient();
 
-  async login(email: string, password: string) {
+  async login(userLoginType: userLoginType) {
     let user = await this.prisma.nguoi_dung.findFirst({
       where: {
-        email: email,
+        email: userLoginType.email,
       },
     });
-
     if (user) {
-      const isPasswordValid = await bcrypt.compareSync(password, user.mat_khau);
+      const isPasswordValid = await bcrypt.compareSync(
+        userLoginType.email,
+        userLoginType.mat_khau,
+      );
       if (isPasswordValid) {
         const token = this.jwtService.sign(
           { data: 'data' },
@@ -31,23 +33,22 @@ export class AuthService {
         );
         return token;
       }
+    } else {
+      throw new UnauthorizedException('Invalid email or password');
     }
-    throw new UnauthorizedException('Invalid email or password');
   }
 
-  signUp(userSignUp: nguoiDungDto) {
-    // check same email
+  async signUp(userSignUp: userSignUpType) {
     try {
-      const isEmailUnique = this.prisma.nguoi_dung.findFirst({
+      let isEmailUnique = await this.prisma.nguoi_dung.findFirst({
         where: {
           email: userSignUp.email,
         },
       });
-
       if (isEmailUnique) {
         return 'Email is already in use';
       } else {
-        this.prisma.nguoi_dung.create({
+        await this.prisma.nguoi_dung.create({
           data: userSignUp,
         });
       }
