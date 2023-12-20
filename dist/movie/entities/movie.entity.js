@@ -15,10 +15,6 @@ class Movie {
 }
 exports.Movie = Movie;
 __decorate([
-    (0, swagger_1.ApiProperty)({ type: Number }),
-    __metadata("design:type", Number)
-], Movie.prototype, "ma_phim", void 0);
-__decorate([
     (0, swagger_1.ApiProperty)({ type: String }),
     __metadata("design:type", String)
 ], Movie.prototype, "ten_phim", void 0);
@@ -26,10 +22,6 @@ __decorate([
     (0, swagger_1.ApiProperty)({ type: String }),
     __metadata("design:type", String)
 ], Movie.prototype, "trailer", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({ type: String }),
-    __metadata("design:type", String)
-], Movie.prototype, "hinh_anh", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ type: String }),
     __metadata("design:type", String)

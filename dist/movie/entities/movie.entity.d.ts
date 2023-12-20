@@ -1,8 +1,6 @@
 export declare class Movie {
-    ma_phim: number;
     ten_phim: string;
     trailer: string;
-    hinh_anh: string;
     mo_ta: string;
     ngay_khoi_chieu: Date;
     danh_gia: number;

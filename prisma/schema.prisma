@@ -11,7 +11,7 @@ model Banner {
   ma_banner Int     @id @default(autoincrement())
   ma_phim   Int?
   hinh_anh  String? @db.VarChar(255)
-  Phim      Phim?   @relation(fields: [ma_phim], references: [ma_phim], onDelete: NoAction, onUpdate: NoAction, map: "banner_ibfk_1")
+  Phim      Phim?   @relation(fields: [ma_phim], references: [ma_phim], onDelete: NoAction, onUpdate: NoAction, map: "Banner_ibfk_1")
 
   @@index([ma_phim], map: "ma_phim")
 }
@@ -22,7 +22,7 @@ model Ghe {
   ten_ghe  String?   @db.VarChar(255)
   loai_ghe String?   @db.VarChar(255)
   ma_rap   Int?
-  rap_phim rap_phim? @relation(fields: [ma_rap], references: [ma_rap], onDelete: NoAction, onUpdate: NoAction, map: "ghe_ibfk_1")
+  rap_phim rap_phim? @relation(fields: [ma_rap], references: [ma_rap], onDelete: NoAction, onUpdate: NoAction, map: "Ghe_ibfk_1")
 
   @@index([ma_rap], map: "ma_rap")
   @@ignore
@@ -39,7 +39,6 @@ model Phim {
   hot             Boolean?
   dang_chieu      Boolean?
   sap_chieu       Boolean?
-  movie_img       String?      @db.VarChar(255)
   Banner          Banner[]
   lich_chieu      lich_chieu[] @ignore
 }

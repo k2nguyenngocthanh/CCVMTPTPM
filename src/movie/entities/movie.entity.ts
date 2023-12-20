@@ -1,14 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class Movie {
-  @ApiProperty({ type: Number })
-  ma_phim: number;
   @ApiProperty({ type: String })
   ten_phim: string;
   @ApiProperty({ type: String })
   trailer: string;
-  @ApiProperty({ type: String })
-  hinh_anh: string;
   @ApiProperty({ type: String })
   mo_ta: string;
   @ApiProperty({ type: Date })

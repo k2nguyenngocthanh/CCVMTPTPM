@@ -16,20 +16,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { nguoi_dung } from '@prisma/client';
 import {
-  ApiBearerAuth,
   ApiBody,
   ApiConsumes,
-  ApiParam,
-  ApiProperty,
-  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport';
-import { type } from 'os';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { User, uploadAvatarDto } from './entities/user.entity';
@@ -67,8 +60,6 @@ export class UserController {
   @Get('TimKiemNguoiDung')
   findOne(@Query('tai_khoan') id: string, @Req() req, @Body() User: User) {
     try {
-      let data = req.user;
-      console.log(data);
       return this.userService.findOne(+id);
     } catch (error) {
       throw new HttpException('BE Error', HttpStatus.INTERNAL_SERVER_ERROR);

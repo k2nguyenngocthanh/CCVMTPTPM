@@ -42,8 +42,6 @@ let UserController = class UserController {
     }
     findOne(id, req, User) {
         try {
-            let data = req.user;
-            console.log(data);
             return this.userService.findOne(+id);
         }
         catch (error) {
