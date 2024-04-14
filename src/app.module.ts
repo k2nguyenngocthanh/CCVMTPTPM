@@ -9,6 +9,7 @@ import { TheaterModule } from './theater/theater.module';
 import { BannerModule } from './banner/banner.module';
 import { TheaterGroupModule } from './theater_group/theater_group.module';
 import { TheaterSysModule } from './theater_sys/theater_sys.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { TheaterSysModule } from './theater_sys/theater_sys.module';
     BannerModule,
     TheaterGroupModule,
     TheaterSysModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
